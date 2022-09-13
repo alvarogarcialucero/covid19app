@@ -1,0 +1,27 @@
+<ion-tabs>
+
+    <ion-tab-bar slot="bottom" color="dark">
+        <ion-tab-button tab="home">
+            <ion-icon name="earth-outline"></ion-icon>
+            <ion-label>Inicio</ion-label>
+        </ion-tab-button>
+        <ion-tab-button (click)="redirectToDatosPais()">
+            <ion-icon *ngIf="!zonaFavorita.esFavorita" name="star-outline"></ion-icon>
+            <ion-label *ngIf="!zonaFavorita.esFavorita">Zona favorita</ion-label>
+
+
+            <ion-avatar *ngIf="zonaFavorita.esFavorita" style="height: 25px; width: 25px;">
+                <img [src]="zonaFavorita.datosPais.imagen">
+            </ion-avatar>
+
+            <ion-label *ngIf="zonaFavorita.esFavorita && zonaFavorita.esPais">{{zonaFavorita.datosPais.nombre}}</ion-label>
+            <ion-label *ngIf="zonaFavorita.esFavorita && zonaFavorita.esRegion">{{zonaFavorita.datosRegion.nombre}}</ion-label>
+            <ion-label *ngIf="zonaFavorita.esFavorita && zonaFavorita.esSubRegion">{{zonaFavorita.datosSubRegion.nombre}}</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="zonas">
+            <ion-icon name="storefront-outline"></ion-icon>
+            <ion-label>Mis Zonas</ion-label>
+        </ion-tab-button>
+    </ion-tab-bar>
+
+</ion-tabs>

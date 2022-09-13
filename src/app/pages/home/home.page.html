@@ -1,0 +1,165 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar color="dark">
+        <ion-title>
+            Covid-19 Tracking
+        </ion-title>
+        <ion-select slot="end" placeholder="Idioma" interface="popover" [(ngModel)]="selectedLang" (ngModelChange)="selectLang($event)" role="listbox" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="ion-sel-1-lbl" class="md in-item hydrated">
+            <ion-select-option value="en" role="option" id="ion-selopt-38" class="md hydrated">EN</ion-select-option>
+            <ion-select-option value="es" role="option" id="ion-selopt-17" class="md hydrated">ES</ion-select-option>
+        </ion-select>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-slides pager style="height: 25%">
+        <ion-slide style="background-image: url(assets/img/coronavirusComunidadMadrid.jpg)">
+            <h2></h2>
+        </ion-slide>
+
+        <ion-slide style="background-image: url(assets/img/Coronavirus-Madrid_principal.jpg)">
+            <h2></h2>
+        </ion-slide>
+    </ion-slides>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col class="ion-text-center" style="background-color: #222428; border: 0 !important">
+                <h4 style="color: white;">Última actualizacion {{ 'HELLO' | translate }}</h4>
+                <small style="color:white;">{{fechaActual | date: 'dd/MM/yyyy HH:mm:ss'}}</small>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <!-- Skeleton screen -->
+    <div *ngIf="loading">
+        <ion-list>
+            <ion-list-header>
+                <ion-label>
+                    <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </ion-label>
+            </ion-list-header>
+            <ion-item>
+                <ion-avatar slot="start">
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-avatar>
+                <ion-label>
+                    <h2>
+                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </h2>
+                    <p>
+                        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                    </p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-list-header>
+                <ion-label>
+                    <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </ion-label>
+            </ion-list-header>
+            <ion-item>
+                <ion-avatar slot="start">
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-avatar>
+                <ion-label>
+                    <h2>
+                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </h2>
+                    <p>
+                        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                    </p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-list-header>
+                <ion-label>
+                    <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </ion-label>
+            </ion-list-header>
+            <ion-item>
+                <ion-avatar slot="start">
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-avatar>
+                <ion-label>
+                    <h2>
+                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </h2>
+                    <p>
+                        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                    </p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <div *ngIf="!loading">
+        <ion-card>
+            <ion-card-header color="dark ">
+                <ion-card-subtitle>Casos confirmados por COVID-19</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-list>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <i class="fas fa-2x fa-hospital"></i>
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>{{summaryWorldData.NewConfirmed | number: '': 'es-ES'}} nuevos casos</h2>
+                        <p>{{summaryWorldData.TotalConfirmed | number: '': 'es-ES'}} total confirmados</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header color="dark ">
+                <ion-card-subtitle>Fallecidos por COVID-19</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-list>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <i class="fas fa-2x fa-skull-crossbones"></i>
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>{{summaryWorldData.NewDeaths | number: '': 'es-ES'}} fallecidos nuevos</h2>
+                        <p>{{summaryWorldData.TotalDeaths | number: '': 'es-ES'}} total fallecidos</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header color="dark ">
+                <ion-card-subtitle>Recuperados por COVID-19</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-list>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <i class="fas fa-2x fa-heart"></i>
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>{{summaryWorldData.NewRecovered | number: '': 'es-ES'}} recuperados nuevos</h2>
+                        <p>{{summaryWorldData.TotalRecovered | number: '': 'es-ES'}} total recuperados</p>
+                    </ion-label>
+                </ion-item>
+
+            </ion-list>
+        </ion-card>
+    </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="primary" (click)="consultarPais()">
+            <ion-icon name="search-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <div id="regions_div" style="width: 100%;"></div>
+
+</ion-content>

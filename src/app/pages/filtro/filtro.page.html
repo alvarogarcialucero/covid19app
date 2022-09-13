@@ -1,0 +1,81 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar color="dark">
+        <ion-title>Criterios de selección</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item-divider>
+        <ion-label>
+            Selecciona Pais
+        </ion-label>
+    </ion-item-divider>
+    <div (click)="seleccionPais()">
+        <ion-item>
+            <ion-avatar slot="start" *ngIf="datosFiltro.datosPais.imagen">
+                <img [src]="datosFiltro.datosPais.imagen">
+            </ion-avatar>
+            <ion-icon slot="start" *ngIf="!datosFiltro.datosPais.imagen" name="globe-outline"></ion-icon>
+            <ion-input readonly>{{datosFiltro.datosPais.nombre}}</ion-input>
+            <ion-button expand="full" slot="end">
+                <ion-icon name="search-outline"></ion-icon>
+            </ion-button>
+        </ion-item>
+    </div>
+
+    <ion-item-divider>
+        <ion-label>
+            Selecciona Comunidad/Región
+        </ion-label>
+    </ion-item-divider>
+    <div (click)="seleccionRegion()">
+        <ion-item>
+            <ion-input readonly>{{datosFiltro.datosRegion.nombre}}</ion-input>
+            <ion-button expand="full" slot="end" 
+                [disabled]="!datosFiltro.enables.enabledRegion">
+                <ion-icon name="search-outline"></ion-icon>
+            </ion-button>
+        </ion-item>
+    </div>
+    <ion-item-divider>
+        <ion-label>
+            Selecciona Provincia/SubRegión
+        </ion-label>
+    </ion-item-divider>
+    <ion-item>
+        <ion-input readonly>{{datosFiltro.datosSubRegion.nombre}}</ion-input>
+        <ion-button expand="full" slot="end" (click)="seleccionSubRegion()" [disabled]="!datosFiltro.enables.enabledSubRegion">
+            <ion-icon name="search-outline"></ion-icon>
+        </ion-button>
+    </ion-item>
+
+    <ion-item-divider>
+        <ion-label>
+            Selecciona Fechas
+        </ion-label>
+    </ion-item-divider>
+    <ion-item>
+        <ion-label>Fecha inicio</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" min="{{sinceDate}}" max="{{datosFiltro.datosFechas.hasta ? datosFiltro.datosFechas.hasta : fromDate}}" [(ngModel)]="datosFiltro.datosFechas.desde"></ion-datetime>
+    </ion-item>
+    <ion-item>
+        <ion-label>Fecha final</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" min="{{datosFiltro.datosFechas.desde ? datosFiltro.datosFechas.desde : sinceDate}}" max="{{fromDate}}" [(ngModel)]="datosFiltro.datosFechas.hasta"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Guardar mi búsqueda</ion-label>
+        <ion-checkbox color="primary" checked slot="start" [(ngModel)]="guardarBusqueda"></ion-checkbox>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Guardar como búsqueda favorita</ion-label>
+        <ion-checkbox color="primary" checked slot="start" [(ngModel)]="guardarFavorita"></ion-checkbox>
+    </ion-item>
+  
+    
+    <section>
+        <ion-button expand="block" color="primary" (click)="filtrar()" [disabled]="!datosFiltro.datosPais.id">Filtrar</ion-button>
+        <ion-button expand="block" fill="outline" color="primary" (click)="closeModal()">Cancelar</ion-button>
+    </section>
+</ion-content>

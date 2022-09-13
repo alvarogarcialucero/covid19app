@@ -1,0 +1,238 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/tabs/home" text=""></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            {{filterData.datosPais.nombre}}
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <img [src]="filterData.datosPais.imagen" />
+        <ion-card-header>
+            <ion-card-subtitle>Datos del {{filterData.datosFechas.desdeFormat}} a {{filterData.datosFechas.hastaFormat}}</ion-card-subtitle>
+            <ion-card-title *ngIf="this.typeFilter === 'pais'">{{filterData.datosPais.nombre}} (<small>{{filterData.datosFechas.hastaFormat}}</small>)</ion-card-title>
+            <ion-card-title *ngIf="this.typeFilter === 'region'">{{filterData.datosRegion.nombre}} (<small>{{filterData.datosFechas.hastaFormat}}</small>)</ion-card-title>
+            <ion-card-title *ngIf="this.typeFilter === 'subregion'">{{filterData.datosSubRegion.nombre}} (<small>{{filterData.datosFechas.hastaFormat}}</small>)</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+
+            <!-- Skeleton screen -->
+            <div *ngIf="loading">
+                <ion-list>
+                    <ion-list-header>
+                        <ion-label>
+                            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                        </ion-label>
+                    </ion-list-header>
+                    <ion-item>
+                        <ion-avatar slot="start">
+                            <ion-skeleton-text animated></ion-skeleton-text>
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>
+                                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                            </h2>
+                            <p>
+                                <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                            </p>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+                <ion-list>
+                    <ion-list-header>
+                        <ion-label>
+                            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                        </ion-label>
+                    </ion-list-header>
+                    <ion-item>
+                        <ion-avatar slot="start">
+                            <ion-skeleton-text animated></ion-skeleton-text>
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>
+                                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                            </h2>
+                            <p>
+                                <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                            </p>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+                <ion-list>
+                    <ion-list-header>
+                        <ion-label>
+                            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                        </ion-label>
+                    </ion-list-header>
+                    <ion-item>
+                        <ion-avatar slot="start">
+                            <ion-skeleton-text animated></ion-skeleton-text>
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>
+                                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                            </h2>
+                            <p>
+                                <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                            </p>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+            </div>
+
+            <div *ngIf="!loading">
+                <ion-card>
+                    <ion-card-header color="dark ">
+                        <ion-card-subtitle>Casos activos</ion-card-subtitle>
+                    </ion-card-header>
+
+                    <ion-list>
+                        <ion-item>
+                            <ion-avatar slot="start">
+                                <i class="fas fa-2x fa-hospital"></i>
+                            </ion-avatar>
+                            <ion-label>
+                                <h2>{{summary.today_new_confirmed | number: '': 'es-ES'}} confirmados</h2>
+                                <p>{{summary.today_confirmed | number: '': 'es-ES'}} total confirmados</p>
+                            </ion-label>
+                        </ion-item>
+                    </ion-list>
+                </ion-card>
+
+                <ion-card>
+                    <ion-card-header color="dark ">
+                        <ion-card-subtitle>Fallecidos</ion-card-subtitle>
+                    </ion-card-header>
+
+                    <ion-list>
+                        <ion-item>
+                            <ion-avatar slot="start">
+                                <i class="fas fa-2x fa-skull-crossbones"></i>
+                            </ion-avatar>
+                            <ion-label>
+                                <h2>{{summary.today_new_deaths | number: '': 'es-ES'}} fallecidos</h2>
+                                <p>{{summary.today_deaths | number: '': 'es-ES'}} total fallecidos</p>
+                            </ion-label>
+                        </ion-item>
+                    </ion-list>
+                </ion-card>
+
+                <ion-card>
+                    <ion-card-header color="dark ">
+                        <ion-card-subtitle>Recuperados</ion-card-subtitle>
+                    </ion-card-header>
+
+                    <ion-list>
+                        <ion-item>
+                            <ion-avatar slot="start">
+                                <i class="fas fa-2x fa-heart"></i>
+                            </ion-avatar>
+                            <ion-label>
+                                <h2>{{summary.today_new_recovered | number: '': 'es-ES'}} recuperados</h2>
+                                <p>{{summary.today_recovered | number: '': 'es-ES'}} total recuperados</p>
+                            </ion-label>
+                        </ion-item>
+
+                    </ion-list>
+                </ion-card>
+                <ion-chip color="secondary">
+                    <ion-label color="secondary">Confirmados {{summary.today_vs_yesterday_confirmed | percent:'1.2-2'}}</ion-label>
+                </ion-chip>
+                <ion-chip color="danger">
+                    <ion-label color="danger">Fallecidos {{summary.today_vs_yesterday_deaths | percent:'1.2-2'}}</ion-label>
+                </ion-chip>
+                <ion-chip color="success">
+                    <ion-label color="success">Recuperados {{summary.today_vs_yesterday_recovered | percent:'1.2-2'}}</ion-label>
+                </ion-chip>
+                <ion-chip color="primary">
+                    <ion-label color="primary">UCI {{summary.today_vs_yesterday_intensive_care | percent:'1.2-2'}}</ion-label>
+                </ion-chip>
+                <ion-chip color="medium">
+                    <ion-label color="medium">Nuevos {{summary.today_vs_yesterday_open_cases | percent:'1.2-2'}}</ion-label>
+                </ion-chip>
+                <ion-chip color="tertiary">
+                    <ion-label color="tertiary">Ingresados {{summary.today_vs_yesterday_total_hospitalised_patients | percent:'1.2-2'}}</ion-label>
+                </ion-chip>
+            </div>
+        </ion-card-content>
+    </ion-card>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="primary" (click)="openModal()">
+            <ion-icon name="search-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <ion-card>
+        <ion-item *ngIf="!loading" class="item-interactive item-select item md in-list ion-activatable ion-focusable hydrated item-label item-has-value">
+            <ion-label id="ion-sel-1-lbl" class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">Diario</ion-label>
+            <ion-select placeholder="Seleccione" [(ngModel)]="selectedChartDiario" (ngModelChange)="selectHandler($event, 'diario')" interface="popover" role="listbox" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="ion-sel-1-lbl" class="md in-item hydrated">
+                <ion-select-option value="newConfirmed" role="option" id="ion-selopt-38" class="md hydrated">Confirmados</ion-select-option>
+                <ion-select-option value="newDeaths" role="option" id="ion-selopt-17" class="md hydrated">Fallecidos</ion-select-option>
+                <ion-select-option value="newIntensiveCare" role="option" id="ion-selopt-17" class="md hydrated">UCI</ion-select-option>
+                <ion-select-option value="newHospitalised" role="option" id="ion-selopt-17" class="md hydrated">Hospitalizaciones</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-card-content id="canvas">
+            <ion-list *ngIf="loading">
+                <ion-list-header>
+                    <ion-label>
+                        <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                    </ion-label>
+                </ion-list-header>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <ion-skeleton-text animated></ion-skeleton-text>
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>
+                            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                        </h2>
+                        <p>
+                            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                        </p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+            <canvas [style.height]="loading? '0px': 'initial'" #barChartDiario></canvas>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-item *ngIf="!loading" class="item-interactive item-select item md in-list ion-activatable ion-focusable hydrated item-label item-has-value">
+            <ion-label id="ion-sel-1-lbl" class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">Evolución</ion-label>
+            <ion-select placeholder="Seleccione" [(ngModel)]="selectedChartEvolucion" (ngModelChange)="selectHandler($event, 'evolucion')" interface="popover" role="listbox" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="ion-sel-1-lbl" class="md in-item hydrated">
+                <ion-select-option value="confirmed" role="option" id="ion-selopt-38" class="md hydrated">Confirmados</ion-select-option>
+                <ion-select-option value="deaths" role="option" id="ion-selopt-17" class="md hydrated">Fallecidos</ion-select-option>
+                <ion-select-option value="intensiveCare" role="option" id="ion-selopt-17" class="md hydrated">UCI</ion-select-option>
+                <ion-select-option value="hospitalised" role="option" id="ion-selopt-17" class="md hydrated">Hospitalizaciones</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-card-content id="canvas">
+            <ion-list *ngIf="loading">
+                <ion-list-header>
+                    <ion-label>
+                        <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                    </ion-label>
+                </ion-list-header>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <ion-skeleton-text animated></ion-skeleton-text>
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>
+                            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                        </h2>
+                        <p>
+                            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                        </p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+            <canvas [style.height]="loading? '0px': 'initial'" #barChartEvolucion></canvas>
+        </ion-card-content>
+    </ion-card>
+    <div id="regions_div_pais" style="width: 100%;"></div>
+</ion-content>

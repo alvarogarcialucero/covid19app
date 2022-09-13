@@ -1,0 +1,47 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+            <ion-button (click)="closeModal()">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            Selección elemento
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="spin" *ngIf="loading">
+        <ion-spinner name="crescent"></ion-spinner>
+        <ion-text color="dark">
+            <h5>Procesando petición...</h5>
+        </ion-text>
+    </div>
+
+    <div *ngIf="!loading">
+        <ion-searchbar *ngIf="paises.length > 0" color="dark" animated=true autocomplete="on" placeholder="Buscar..." [(ngModel)]="buscadorPais" (ionChange)="buscarPais($event)"></ion-searchbar>
+
+        <ion-list>
+            <ion-item *ngFor="let pais of paises | filtro: buscadorPais: 'nombre' | slice:0:(pageInicio+20)" (click)="consultarPais(pais)">
+
+                <ion-avatar *ngIf="pais.imagen" slot="start">
+                    <img [src]="pais.imagen">
+                </ion-avatar>
+                <ion-icon *ngIf="!pais.imagen" name="globe-outline"></ion-icon>
+                <ion-label>{{pais.nombre}}</ion-label>
+            </ion-item>
+        </ion-list>
+
+        <ion-item *ngIf="paises.length === 0">
+            <ion-label>
+                <h2>No existen elementos</h2>
+            </ion-label>
+        </ion-item>
+
+        <ion-infinite-scroll *ngIf="paises.length > 0" threshold="100px" (ionInfinite)="nextPageCountry()">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando paises...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
+</ion-content>
